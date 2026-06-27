@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ImmoPrüfer – KI-gestützte Immobilienanalyse für Käufer</title>
+    <meta name="description" content="ImmoPrüfer analysiert Exposés, Hausgeldabrechnungen und WEG-Protokolle mit KI. Erkennen Sie versteckte Kosten vor dem Kauf.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ImmoPrüfer">
+    <meta name="theme-color" content="#0d4f4f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a3535" media="(prefers-color-scheme: dark)">
+    <link rel="canonical" href="https://immoprufer.de/">
+
+    <!-- Favicon (inline SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d4f4f'/%3E%3Cpath d='M8 22V14l8-6 8 6v8a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z' fill='none' stroke='%23f0fdf4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 24v-6h6v6' fill='none' stroke='%23e8734a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230d4f4f'/%3E%3Cpath d='M45 124V79l45-34 45 34v45a11 11 0 0 1-11 11H56a11 11 0 0 1-11-11z' fill='none' stroke='%23f0fdf4' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M73 135v-34h34v34' fill='none' stroke='%23e8734a' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://immoprufer.de/">
+    <meta property="og:title" content="ImmoPrüfer – KI-gestützte Immobilienanalyse für Käufer">
+    <meta property="og:description" content="Analysiert Exposés, Hausgeldabrechnungen und WEG-Protokolle mit KI. Versteckte Kosten erkennen, bevor Sie unterschreiben.">
+    <meta property="og:image" content="https://immoprufer.de/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ImmoPrüfer – KI-gestützte Dokumentenanalyse für Immobilienkäufer">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:site_name" content="ImmoPrüfer">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ImmoPrüfer – KI-gestützte Immobilienanalyse für Käufer">
+    <meta name="twitter:description" content="Analysiert Exposés, Hausgeldabrechnungen und WEG-Protokolle mit KI. Versteckte Kosten erkennen, bevor Sie unterschreiben.">
+    <meta name="twitter:image" content="https://immoprufer.de/og-image.png">
+    <meta name="twitter:image:alt" content="ImmoPrüfer – KI-gestützte Dokumentenanalyse für Immobilienkäufer">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ImmoPrüfer",
+        "applicationCategory": "BusinessApplication",
+        "description": "KI-gestützte Dokumentenanalyse für Immobilienkäufer. Analysiert Exposés, Hausgeldabrechnungen und WEG-Protokolle.",
+        "offers": [
+            { "@type": "Offer", "name": "Basic", "price": "49", "priceCurrency": "EUR" },
+            { "@type": "Offer", "name": "Full", "price": "149", "priceCurrency": "EUR" },
+            { "@type": "Offer", "name": "Berater", "price": "299", "priceCurrency": "EUR", "billingIncrement": "P1M" }
+        ],
+        "operatingSystem": "Web",
+        "availableOnDevice": "Desktop, Mobile"
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap">
+
+    <style>
+        /* ===== DESIGN TOKENS ===== */
+        :root {
+            /* Primary: Deep Teal */
+            --primary-50: #effefa;
+            --primary-100: #c8fff2;
+            --primary-200: #91ffe5;
+            --primary-300: #52f5d2;
+            --primary-400: #1ddeba;
+            --primary-500: #05c4a1;
+            --primary-600: #009e84;
+            --primary-700: #0d4f4f;
+            --primary-800: #0a3535;
+            --primary-900: #071f1f;
+
+            /* Accent: Warm Coral */
+            --accent-50: #fff4f0;
+            --accent-100: #ffe4db;
+            --accent-200: #ffc8b5;
+            --accent-300: #ffa082;
+            --accent-400: #e8734a;
+            --accent-500: #d4562e;
+            --accent-600: #b33d1a;
+            --accent-700: #8a2e14;
+
+            /* Neutral */
+            --neutral-0: #ffffff;
+            --neutral-50: #f7f8f9;
+            --neutral-100: #eef0f2;
+            --neutral-200: #dce0e5;
+            --neutral-300: #bfc5cc;
+            --neutral-400: #8d959e;
+            --neutral-500: #5f6872;
+            --neutral-600: #3d4550;
+            --neutral-700: #262d36;
+            --neutral-800: #181d24;
+            --neutral-900: #0c0f13;
+
+            /* Semantic */
+            --danger: #dc2f2f;
+            --danger-bg: #fdeaea;
+            --warning: #d48c06;
+            --warning-bg: #fef7e0;
+            --success: #1a8c54;
+            --success-bg: #e6f7ee;
+            --info: #1a6b8c;
+            --info-bg: #e6f3f7;
+
+            /* Surfaces (light mode) */
+            --surface-page: var(--neutral-50);
+            --surface-card: var(--neutral-0);
+            --surface-elevated: var(--neutral-0);
+            --surface-overlay: rgba(12, 15, 19, 0.6);
+
+            /* Text (light mode) */
+            --text-primary: var(--neutral-800);
+            --text-secondary: var(--neutral-500);
+            --text-muted: var(--neutral-400);
+            --text-inverse: var(--neutral-0);
+
+            /* Borders */
+            --border-subtle: var(--neutral-200);
+            --border-default: var(--neutral-300);
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(12, 15, 19, 0.06);
+            --shadow-md: 0 4px 16px rgba(12, 15, 19, 0.08);
+            --shadow-lg: 0 12px 40px rgba(12, 15, 19, 0.12);
+            --shadow-xl: 0 20px 60px rgba(12, 15, 19, 0.16);
+
+            /* Typography */
+            --font-display: 'Space Grotesk', system-ui, sans-serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+
+            /* Radii */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+
+            /* Transitions */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --duration-slow: 400ms;
+
+            /* Safe area */
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
+        /* ===== DARK MODE ===== */
+        [data-theme="dark"] {
+            --surface-page: var(--neutral-900);
+            --surface-card: var(--neutral-800);
+            --surface-elevated: var(--neutral-700);
+            --surface-overlay: rgba(0, 0, 0, 0.7);
+
+            --text-primary: var(--neutral-100);
+            --text-secondary: var(--neutral-400);
+            --text-muted: var(--neutral-500);
+            --text-inverse: var(--neutral-900);
+
+            --border-subtle: var(--neutral-700);
+            --border-default: var(--neutral-600);
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+            --danger-bg: rgba(220, 47, 47, 0.15);
+            --warning-bg: rgba(212, 140, 6, 0.15);
+            --success-bg: rgba(26, 140, 84, 0.15);
+            --info-bg: rgba(26, 107, 140, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] {
+                --surface-page: var(--neutral-900);
+                --surface-card: var(--neutral-800);
+                --surface-elevated: var(--neutral-700);
+                --surface-overlay: rgba(0, 0, 0, 0.7);
+                --text-primary: var(--neutral-100);
+                --text-secondary: var(--neutral-400);
+                --text-muted: var(--neutral-500);
+                --text-inverse: var(--neutral-900);
+                --border-subtle: var(--neutral-700);
+                --border-default: var(--neutral-600);
+                --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+                --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+                --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.5);
+                --danger-bg: rgba(220, 47, 47, 0.15);
+                --warning-bg: rgba(212, 140, 6, 0.15);
+                --success-bg: rgba(26, 140, 84, 0.15);
+                --info-bg: rgba(26, 107, 140, 0.15);
+            }
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-primary);
+            line-height: 1.65;
+            background: var(--surface-page);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-top: var(--safe-top);
+            padding-bottom: var(--safe-bottom);
+            overflow-x: hidden;
+        }
+
+        /* Page load animation */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* ===== SKIP LINK ===== */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: var(--space-md);
+            z-index: 9999;
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--primary-700);
+            color: var(--text-inverse);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            font-weight: 600;
+            text-decoration: none;
+            font-family: var(--font-display);
+            transition: top var(--duration-fast) var(--ease-out);
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ===== FOCUS STYLES ===== */
+        :focus-visible {
+            outline: 3px solid var(--primary-400);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* ===== LOADING SKELETON ===== */
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--surface-page);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: var(--space-lg);
+            transition: opacity var(--duration-slow) var(--ease-out),
+                        visibility 0s var(--duration-slow);
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-700);
+        }
+
+        [data-theme="dark"] .loader-logo {
+            color: var(--primary-400);
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 3px;
+            background: var(--border-subtle);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .loader-bar::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 40%;
+            background: var(--primary-500);
+            border-radius: var(--radius-full);
+            animation: loader-slide 1s var(--ease-out) infinite;
+        }
+
+        @keyframes loader-slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(350%); }
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast-container {
+            position: fixed;
+            bottom: calc(var(--space-lg) + var(--safe-bottom));
+            right: calc(var(--space-lg) + var(--safe-right));
+            z-index: 9000;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: var(--space-sm);
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-md) var(--space-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            max-width: 360px;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: transform var(--duration-normal) var(--ease-spring),
+                        opacity var(--duration-normal) var(--ease-out);
+        }
+
+        .toast.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.removing {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .toast-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .toast--success { border-left: 3px solid var(--success); }
+        .toast--error { border-left: 3px solid var(--danger); }
+        .toast--info { border-left: 3px solid var(--info); }
+
+        .toast-dismiss {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: var(--space-xs);
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: color var(--duration-fast);
+        }
+
+        .toast-dismiss:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding-left: calc(var(--space-lg) + var(--safe-left));
+            padding-right: calc(var(--space-lg) + var(--safe-right));
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity var(--duration-slow) var(--ease-out),
+                        transform var(--duration-slow) var(--ease-out);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 100ms; }
+        .reveal-delay-2 { transition-delay: 200ms; }
+        .reveal-delay-3 { transition-delay: 300ms; }
+
+        /* Stagger children */
+        .stagger-children .reveal {
+            transition-delay: calc(var(--stagger-index, 0) * 80ms);
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--surface-card);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: var(--space-md) 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        [data-theme="dark"] .nav {
+            background: rgba(24, 29, 36, 0.85);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-700);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            transition: opacity var(--duration-fast);
+        }
+
+        [data-theme="dark"] .logo {
+            color: var(--primary-300);
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo span {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-full);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: background var(--duration-fast),
+                        color var(--duration-fast),
+                        border-color var(--duration-fast);
+        }
+
+        .theme-toggle:hover {
+            background: var(--neutral-100);
+            color: var(--text-primary);
+            border-color: var(--border-default);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: var(--neutral-700);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .theme-toggle .icon-moon { display: none; }
+        [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+        [data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+        .nav-cta {
+            background: var(--primary-700);
+            color: var(--neutral-0);
+            padding: var(--space-sm) var(--space-lg);
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.875rem;
+            font-family: var(--font-display);
+            transition: background var(--duration-fast) var(--ease-out),
+                        transform var(--duration-fast) var(--ease-spring),
+                        box-shadow var(--duration-fast) var(--ease-out);
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-800);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 79, 79, 0.3);
+        }
+
+        .nav-cta:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        [data-theme="dark"] .nav-cta {
+            background: var(--primary-500);
+            color: var(--neutral-900);
+        }
+
+        [data-theme="dark"] .nav-cta:hover {
+            background: var(--primary-400);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: var(--space-4xl) 0 var(--space-3xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 140%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(13, 79, 79, 0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(232, 115, 74, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        [data-theme="dark"] .hero::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(5, 196, 161, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(232, 115, 74, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--primary-50);
+            border: 1px solid var(--primary-200);
+            color: var(--primary-700);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: 0.02em;
+            margin-bottom: var(--space-xl);
+        }
+
+        [data-theme="dark"] .hero-badge {
+            background: rgba(5, 196, 161, 0.1);
+            border-color: rgba(5, 196, 161, 0.2);
+            color: var(--primary-300);
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-500);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-bottom: var(--space-lg);
+            max-width: 780px;
+            margin-left: auto;
+            margin-right: auto;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary-700);
+            position: relative;
+        }
+
+        [data-theme="dark"] .hero h1 .highlight {
+            color: var(--primary-400);
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto var(--space-2xl);
+            line-height: 1.7;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            min-height: 56px;
+            background: var(--primary-700);
+            color: var(--neutral-0);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            font-family: var(--font-display);
+            transition: background var(--duration-fast) var(--ease-out),
+                        transform var(--duration-fast) var(--ease-spring),
+                        box-shadow var(--duration-normal) var(--ease-out);
+            box-shadow: 0 4px 20px rgba(13, 79, 79, 0.25);
+        }
+
+        .hero-cta:hover {
+            background: var(--primary-800);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(13, 79, 79, 0.35);
+        }
+
+        .hero-cta:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        [data-theme="dark"] .hero-cta {
+            background: var(--primary-500);
+            color: var(--neutral-900);
+            box-shadow: 0 4px 20px rgba(5, 196, 161, 0.2);
+        }
+
+        [data-theme="dark"] .hero-cta:hover {
+            background: var(--primary-400);
+            box-shadow: 0 8px 30px rgba(5, 196, 161, 0.3);
+        }
+
+        .hero-cta-arrow {
+            transition: transform var(--duration-fast) var(--ease-spring);
+        }
+
+        .hero-cta:hover .hero-cta-arrow {
+            transform: translateX(3px);
+        }
+
+        .hero-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== SECTION COMMONS ===== */
+        section {
+            padding: var(--space-4xl) 0;
+        }
+
+        .section-eyebrow {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-400);
+            margin-bottom: var(--space-sm);
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-2xl);
+            line-height: 1.7;
+        }
+
+        /* ===== PROBLEM SECTION ===== */
+        .problem {
+            background: var(--surface-card);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            list-style: none;
+        }
+
+        .problem-card {
+            background: var(--surface-page);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            transition: box-shadow var(--duration-normal) var(--ease-out),
+                        transform var(--duration-normal) var(--ease-out),
+                        border-color var(--duration-normal) var(--ease-out);
+        }
+
+        .problem-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+            border-color: var(--accent-200);
+        }
+
+        [data-theme="dark"] .problem-card:hover {
+            border-color: var(--accent-400);
+        }
+
+        .problem-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--danger-bg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .problem-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .problem-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            background: var(--surface-page);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            list-style: none;
+        }
+
+        .step {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-lg);
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            transition: box-shadow var(--duration-normal) var(--ease-out),
+                        transform var(--duration-normal) var(--ease-out);
+        }
+
+        .step:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-600));
+            color: var(--neutral-0);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 auto var(--space-md);
+        }
+
+        [data-theme="dark"] .step-number {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-400));
+            color: var(--neutral-900);
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ===== REPORT MOCKUP ===== */
+        .examples {
+            background: var(--surface-card);
+        }
+
+        .report-mockup {
+            max-width: 680px;
+            margin: 0 auto;
+            background: var(--surface-page);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header {
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-800));
+            color: var(--neutral-0);
+            padding: var(--space-lg) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-header h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .report-header span {
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+
+        .report-body {
+            padding: var(--space-lg) var(--space-xl);
+        }
+
+        .report-summary {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .report-stat {
+            flex: 1;
+            min-width: 100px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        .report-stat .number {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-700);
+        }
+
+        [data-theme="dark"] .report-stat .number {
+            color: var(--primary-400);
+        }
+
+        .report-stat .number--critical { color: var(--danger); }
+        .report-stat .number--warning { color: var(--warning); }
+        .report-stat .number--info { color: var(--info); }
+
+        .report-stat .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .finding {
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-sm);
+            border-left: 4px solid var(--danger);
+            border-top: 1px solid var(--border-subtle);
+            border-right: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: transform var(--duration-fast) var(--ease-out);
+        }
+
+        .finding:hover {
+            transform: translateX(4px);
+        }
+
+        .finding.warning { border-left-color: var(--warning); }
+        .finding.info { border-left-color: var(--info); }
+
+        .finding-severity {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+            font-family: var(--font-display);
+        }
+
+        .finding-severity.critical { color: var(--danger); }
+        .finding-severity.warning { color: var(--warning); }
+        .finding-severity.info { color: var(--info); }
+
+        .finding h5 {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .finding p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== PRICING ===== */
+        .pricing {
+            background: var(--surface-page);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+            position: relative;
+            transition: box-shadow var(--duration-normal) var(--ease-out),
+                        transform var(--duration-normal) var(--ease-out);
+        }
+
+        .pricing-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary-400);
+            box-shadow: 0 4px 30px rgba(13, 79, 79, 0.12);
+        }
+
+        [data-theme="dark"] .pricing-card.featured {
+            border-color: var(--primary-500);
+            box-shadow: 0 4px 30px rgba(5, 196, 161, 0.1);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-600));
+            color: var(--neutral-0);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        [data-theme="dark"] .pricing-badge {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-400));
+            color: var(--neutral-900);
+        }
+
+        .pricing-name {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .pricing-price {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            letter-spacing: -0.02em;
+        }
+
+        .pricing-period {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: var(--space-xl);
+        }
+
+        .pricing-features li {
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .pricing-features li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            background: var(--success-bg);
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231a8c54'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E");
+            background-size: 12px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .pricing-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 52px;
+            padding: var(--space-md);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: var(--font-display);
+            transition: background var(--duration-fast) var(--ease-out),
+                        transform var(--duration-fast) var(--ease-spring),
+                        box-shadow var(--duration-fast) var(--ease-out);
+            background: var(--surface-page);
+            color: var(--text-primary);
+            border: 1px solid var(--border-default);
+        }
+
+        .pricing-btn:hover {
+            background: var(--neutral-200);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .pricing-btn:hover {
+            background: var(--neutral-600);
+        }
+
+        .pricing-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .pricing-card.featured .pricing-btn {
+            background: var(--primary-700);
+            color: var(--neutral-0);
+            border-color: var(--primary-700);
+        }
+
+        .pricing-card.featured .pricing-btn:hover {
+            background: var(--primary-800);
+            box-shadow: 0 4px 12px rgba(13, 79, 79, 0.25);
+        }
+
+        [data-theme="dark"] .pricing-card.featured .pricing-btn {
+            background: var(--primary-500);
+            color: var(--neutral-900);
+            border-color: var(--primary-500);
+        }
+
+        [data-theme="dark"] .pricing-card.featured .pricing-btn:hover {
+            background: var(--primary-400);
+        }
+
+        /* ===== CTA / WAITLIST SECTION ===== */
+        .cta-section {
+            padding: var(--space-4xl) 0;
+            background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(5, 196, 161, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(232, 115, 74, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            color: var(--neutral-0);
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.01em;
+        }
+
+        .cta-section > .container > p {
+            color: var(--primary-200);
+            font-size: 1.05rem;
+            max-width: 540px;
+            margin: 0 auto var(--space-xl);
+            line-height: 1.7;
+        }
+
+        .waitlist-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .waitlist-input-group {
+            display: flex;
+            gap: var(--space-sm);
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .waitlist-input {
+            flex: 1;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(5, 196, 161, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--neutral-0);
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            min-height: 52px;
+            transition: border-color var(--duration-fast),
+                        background var(--duration-fast);
+        }
+
+        .waitlist-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .waitlist-input:focus {
+            outline: none;
+            border-color: var(--primary-400);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .waitlist-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            min-height: 52px;
+            background: var(--neutral-0);
+            color: var(--primary-800);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-full);
+            border: none;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: var(--font-display);
+            cursor: pointer;
+            transition: transform var(--duration-fast) var(--ease-spring),
+                        box-shadow var(--duration-normal) var(--ease-out);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .waitlist-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .waitlist-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .waitlist-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .waitlist-btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(13, 79, 79, 0.2);
+            border-top-color: var(--primary-700);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .waitlist-btn.loading .spinner {
+            display: block;
+        }
+
+        .waitlist-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-note {
+            margin-top: var(--space-md);
+            color: var(--primary-300);
+            font-size: 0.82rem;
+        }
+
+        /* ===== FAQ ===== */
+        .faq {
+            background: var(--surface-card);
+        }
+
+        .faq-list {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-subtle);
+            overflow: hidden;
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .faq-toggle {
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            padding: var(--space-lg) 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            min-height: 56px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            transition: color var(--duration-fast);
+        }
+
+        .faq-toggle:hover {
+            color: var(--primary-700);
+        }
+
+        [data-theme="dark"] .faq-toggle:hover {
+            color: var(--primary-400);
+        }
+
+        .faq-chevron {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            transition: transform var(--duration-normal) var(--ease-out);
+        }
+
+        .faq-item.open .faq-chevron {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.75;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--duration-normal) var(--ease-out),
+                        padding-bottom var(--duration-normal) var(--ease-out);
+            padding-bottom: 0;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-bottom: var(--space-lg);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background: var(--neutral-900);
+            color: var(--neutral-400);
+            padding: var(--space-2xl) 0;
+            padding-bottom: calc(var(--space-2xl) + var(--safe-bottom));
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--neutral-200);
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-links {
+            margin-top: var(--space-md);
+        }
+
+        .footer-links a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            padding: var(--space-sm) var(--space-md);
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            border-radius: var(--radius-sm);
+            transition: color var(--duration-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--neutral-0);
+        }
+
+        /* ===== EMPTY STATE (reusable) ===== */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-lg);
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-md);
+            opacity: 0.4;
+        }
+
+        .empty-state h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== SKELETON LOADING ===== */
+        .skeleton {
+            background: linear-gradient(90deg,
+                var(--border-subtle) 25%,
+                var(--neutral-200) 50%,
+                var(--border-subtle) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        [data-theme="dark"] .skeleton {
+            background: linear-gradient(90deg,
+                var(--neutral-700) 25%,
+                var(--neutral-600) 50%,
+                var(--neutral-700) 75%);
+            background-size: 200% 100%;
+        }
+
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+
+            .toast {
+                transform: none;
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            section {
+                padding: var(--space-3xl) 0;
+            }
+
+            .hero {
+                padding: var(--space-3xl) 0 var(--space-2xl);
+            }
+
+            .problem-grid,
+            .steps,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-summary {
+                flex-direction: column;
+            }
+
+            .report-stat {
+                min-width: auto;
+            }
+
+            .waitlist-input-group {
+                flex-direction: column;
+            }
+
+            .waitlist-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast-container {
+                right: var(--space-md);
+                left: var(--space-md);
+            }
+
+            .toast {
+                max-width: none;
+            }
+
+            .report-header {
+                flex-direction: column;
+                gap: var(--space-xs);
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-cta {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-cta span {
+                display: none;
+            }
+
+            .nav-cta::after {
+                content: 'Testen';
+            }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            .nav, .theme-toggle, .toast-container, .page-loader {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body class="loading">
+
+    <!-- Page Loader -->
+    <div class="page-loader" role="alert" aria-live="polite" aria-label="Seite wird geladen">
+        <div class="loader-logo">ImmoPrüfer</div>
+        <div class="loader-bar" aria-hidden="true"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" role="region" aria-live="polite" aria-label="Benachrichtigungen"></div>
+
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+    <!-- Navigation -->
+    <nav class="nav" aria-label="Hauptnavigation">
+        <div class="container nav-inner">
+            <a href="#" class="logo" aria-label="ImmoPrüfer Startseite">
+                <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <rect width="32" height="32" rx="8" fill="currentColor"/>
+                    <path d="M8 22V14l8-6 8 6v8a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13 24v-6h6v6" stroke="#e8734a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Immo<span>Prüfer</span>
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Farbschema wechseln" type="button">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+                <a href="#waitlist" class="nav-cta"><span>Kostenlos testen</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+        <div class="container">
+            <div class="hero-badge reveal">
+                <span class="hero-badge-dot" aria-hidden="true"></span>
+                KI-gestützte Dokumentenanalyse
+            </div>
+            <h1 id="hero-heading" class="reveal reveal-delay-1">
+                Ihre Immobilie. Unsere <span class="highlight">Analyse</span>. Null Risiko.
+            </h1>
+            <p class="hero-sub reveal reveal-delay-2">ImmoPrüfer analysiert Exposés, Hausgeldabrechnungen und WEG-Protokolle in Minuten – und findet versteckte Kosten, bevor Sie unterschreiben.</p>
+            <div class="hero-cta-group reveal reveal-delay-3">
+                <a href="#waitlist" class="hero-cta">
+                    Kostenlos vormerken
+                    <svg class="hero-cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <p class="hero-note">Kein Abo &middot; Kein Risiko &middot; Launch Q3 2026</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="problem" aria-labelledby="problem-heading">
+        <div class="container">
+            <p class="section-eyebrow reveal">Das Problem</p>
+            <h2 id="problem-heading" class="section-title reveal">€200.000+ Kaufentscheidung, kritische Details in 80-Seiten-PDFs versteckt</h2>
+            <p class="section-subtitle reveal">Die teuersten Fehler passieren nicht beim Preis – sondern in den Dokumenten, die niemand vollständig liest.</p>
+            <ul class="problem-grid stagger-children" role="list">
+                <li class="problem-card reveal" style="--stagger-index: 0">
+                    <div class="problem-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </div>
+                    <h3>Versteckte Kosten in WEG-Protokollen</h3>
+                    <p>Sonderumlagen über €30.000, beschlossene Sanierungen, Rechtsstreitigkeiten der WEG – alles vergraben in jahrelangen Protokollen, die kein Käufer komplett liest.</p>
+                </li>
+                <li class="problem-card reveal" style="--stagger-index: 1">
+                    <div class="problem-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3>Falsches Hausgeld im Exposé</h3>
+                    <p>Makler zeigen das Hausgeld von 2021 – aber die aktuelle Abrechnung zeigt €150/Monat mehr. Über 10 Jahre: €18.000 unerwartete Mehrkosten.</p>
+                </li>
+                <li class="problem-card reveal" style="--stagger-index: 2">
+                    <div class="problem-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    </div>
+                    <h3>Illegale Klauseln im Mietvertrag</h3>
+                    <p>Bei vermieteten Wohnungen: unwirksame Schönheitsreparatur-Klauseln, fehlerhafte Staffelmieten oder unzulässige Kündigungsausschlüsse, die Ihre Rendite gefährden.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" aria-labelledby="how-heading">
+        <div class="container">
+            <p class="section-eyebrow reveal">So funktioniert's</p>
+            <h2 id="how-heading" class="section-title reveal">In 3 Schritten zum Risiko-Report</h2>
+            <p class="section-subtitle reveal">Laden Sie Ihre Dokumente hoch – unsere KI erledigt den Rest.</p>
+            <ol class="steps stagger-children" role="list">
+                <li class="step reveal" style="--stagger-index: 0">
+                    <div class="step-number" aria-hidden="true">1</div>
+                    <h3>Dokumente hochladen</h3>
+                    <p>Laden Sie Exposé, Hausgeldabrechnung und WEG-Protokolle als PDF hoch. Auch Mietverträge und Energieausweise werden analysiert.</p>
+                </li>
+                <li class="step reveal" style="--stagger-index: 1">
+                    <div class="step-number" aria-hidden="true">2</div>
+                    <h3>KI analysiert</h3>
+                    <p>Unsere spezialisierte KI prüft jedes Dokument auf versteckte Risiken, Widersprüche und kritische Informationen – in unter 5 Minuten.</p>
+                </li>
+                <li class="step reveal" style="--stagger-index: 2">
+                    <div class="step-number" aria-hidden="true">3</div>
+                    <h3>Risiko-Report erhalten</h3>
+                    <p>Sie erhalten einen übersichtlichen PDF-Report mit allen Findings, Risikoeinschätzung und konkreten Handlungsempfehlungen.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Example Report -->
+    <section class="examples" aria-labelledby="examples-heading">
+        <div class="container">
+            <p class="section-eyebrow reveal">Beispiel-Report</p>
+            <h2 id="examples-heading" class="section-title reveal">Das findet ImmoPrüfer für Sie</h2>
+            <p class="section-subtitle reveal">Ein realistischer Auszug aus einem ImmoPrüfer Risiko-Report.</p>
+            <div class="report-mockup reveal">
+                <div class="report-header">
+                    <h4>ImmoPrüfer Risiko-Report</h4>
+                    <span>3-Zi-ETW &middot; München-Schwabing &middot; 420.000 €</span>
+                </div>
+                <div class="report-body">
+                    <div class="report-summary" role="group" aria-label="Zusammenfassung der Findings">
+                        <div class="report-stat">
+                            <div class="number" aria-label="5 Findings gesamt">5</div>
+                            <div class="label">Findings</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="number number--critical" aria-label="2 kritische Findings">2</div>
+                            <div class="label">Kritisch</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="number number--warning" aria-label="2 Warnungen">2</div>
+                            <div class="label">Warnung</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="number number--info" aria-label="1 Hinweis">1</div>
+                            <div class="label">Hinweis</div>
+                        </div>
+                    </div>
+                    <div class="finding" role="article" aria-label="Kritisches Finding: Sonderumlage">
+                        <div class="finding-severity critical" aria-hidden="true">Kritisch</div>
+                        <h5>Sonderumlage €30.000 beschlossen</h5>
+                        <p>WEG-Protokoll 03/2024: Dachsanierung beschlossen, Sonderumlage je Einheit €30.000, fällig 01/2025. Nicht im Exposé erwähnt.</p>
+                    </div>
+                    <div class="finding" role="article" aria-label="Kritisches Finding: Energieausweis">
+                        <div class="finding-severity critical" aria-hidden="true">Kritisch</div>
+                        <h5>Energieausweis Klasse G = Sanierungspflicht</h5>
+                        <p>GEG §72: Bei Eigentümerwechsel Pflicht zur Heizungserneuerung innerhalb 2 Jahren. Geschätzte Kosten: €25.000–€45.000.</p>
+                    </div>
+                    <div class="finding warning" role="article" aria-label="Warnung: Hausgeld-Abweichung">
+                        <div class="finding-severity warning" aria-hidden="true">Warnung</div>
+                        <h5>Hausgeld-Abweichung: +€127/Monat</h5>
+                        <p>Exposé nennt €280/Monat Hausgeld. Letzte Abrechnung 2023 zeigt €407/Monat inkl. Zuführung Instandhaltungsrücklage.</p>
+                    </div>
+                    <div class="finding warning" role="article" aria-label="Warnung: Rücklage unterfinanziert">
+                        <div class="finding-severity warning" aria-hidden="true">Warnung</div>
+                        <h5>Instandhaltungsrücklage unterfinanziert</h5>
+                        <p>Aktuelle Rücklage: €8.200 für 12 Einheiten (€683/Einheit). Empfehlung VPB: mind. €3.000/Einheit. Erhöhung wahrscheinlich.</p>
+                    </div>
+                    <div class="finding info" role="article" aria-label="Hinweis: Verwaltervertrag">
+                        <div class="finding-severity info" aria-hidden="true">Hinweis</div>
+                        <h5>Verwaltervertrag läuft 12/2024 aus</h5>
+                        <p>Kein Beschluss zur Verlängerung vorliegend. Mögliche Verwalterwechsel-Kosten und Übergangsphase einplanen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" aria-labelledby="pricing-heading">
+        <div class="container">
+            <p class="section-eyebrow reveal">Preise</p>
+            <h2 id="pricing-heading" class="section-title reveal">Transparent &amp; fair</h2>
+            <p class="section-subtitle reveal">Keine Abos für Privatkäufer. Zahlen Sie nur, wenn Sie eine Immobilie prüfen möchten.</p>
+            <div class="pricing-grid stagger-children">
+                <div class="pricing-card reveal" style="--stagger-index: 0">
+                    <div class="pricing-name">Basic</div>
+                    <div class="pricing-price">€49</div>
+                    <div class="pricing-period">pro Analyse</div>
+                    <ul class="pricing-features" aria-label="Basic-Paket enthält">
+                        <li>1 Exposé-Analyse</li>
+                        <li>Hausgeld-Check</li>
+                        <li>Basis-Risikobewertung</li>
+                        <li>PDF-Report</li>
+                        <li>Ergebnis in unter 10 Min.</li>
+                    </ul>
+                    <a href="#waitlist" class="pricing-btn" aria-label="Basic-Paket: Auf Warteliste setzen">Auf Warteliste setzen</a>
+                </div>
+                <div class="pricing-card featured reveal" style="--stagger-index: 1">
+                    <div class="pricing-badge" aria-label="Beliebteste Wahl">Beliebteste Wahl</div>
+                    <div class="pricing-name">Full</div>
+                    <div class="pricing-price">€149</div>
+                    <div class="pricing-period">pro Analyse</div>
+                    <ul class="pricing-features" aria-label="Full-Paket enthält">
+                        <li>Alles aus Basic</li>
+                        <li>WEG-Protokoll-Analyse (bis 5 Jahre)</li>
+                        <li>Mietvertragsprüfung</li>
+                        <li>Energieausweis-Check + GEG-Pflichten</li>
+                        <li>Detaillierte Handlungsempfehlungen</li>
+                        <li>Kostenrisiko-Kalkulation</li>
+                    </ul>
+                    <a href="#waitlist" class="pricing-btn" aria-label="Full-Paket: Auf Warteliste setzen">Auf Warteliste setzen</a>
+                </div>
+                <div class="pricing-card reveal" style="--stagger-index: 2">
+                    <div class="pricing-name">Berater</div>
+                    <div class="pricing-price">€299</div>
+                    <div class="pricing-period">pro Monat</div>
+                    <ul class="pricing-features" aria-label="Berater-Paket enthält">
+                        <li>Unbegrenzte Analysen</li>
+                        <li>White-Label Reports</li>
+                        <li>API-Zugang</li>
+                        <li>Eigenes Branding</li>
+                        <li>Mandanten-Verwaltung</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="#waitlist" class="pricing-btn" aria-label="Berater-Paket: Auf Warteliste setzen">Auf Warteliste setzen</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Waitlist -->
+    <section class="cta-section" id="waitlist" aria-labelledby="cta-heading">
+        <div class="container">
+            <h2 id="cta-heading" class="reveal">Nie wieder böse Überraschungen nach dem Notartermin</h2>
+            <p class="reveal reveal-delay-1">Lassen Sie sich vormerken und erfahren Sie als Erste/r, wenn ImmoPrüfer startet. Frühbucher erhalten 30% Rabatt.</p>
+            <form class="waitlist-form reveal reveal-delay-2" id="waitlist-form" novalidate aria-label="Warteliste Anmeldung">
+                <div class="waitlist-input-group">
+                    <label for="waitlist-email" class="sr-only">E-Mail-Adresse</label>
+                    <input
+                        type="email"
+                        id="waitlist-email"
+                        class="waitlist-input"
+                        placeholder="Ihre E-Mail-Adresse"
+                        required
+                        autocomplete="email"
+                        aria-describedby="email-hint"
+                        aria-required="true"
+                    >
+                    <button type="submit" class="waitlist-btn" aria-label="Auf Warteliste setzen">
+                        <span class="btn-text">Vormerken</span>
+                        <span class="spinner" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <span id="email-hint" class="sr-only">Wir senden Ihnen eine Bestätigung per E-Mail.</span>
+            </form>
+            <p class="cta-note reveal reveal-delay-3">Keine Zahlungsdaten nötig &middot; Unverbindlich &middot; Jederzeit abmelden</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" aria-labelledby="faq-heading">
+        <div class="container">
+            <p class="section-eyebrow reveal">FAQ</p>
+            <h2 id="faq-heading" class="section-title reveal">Häufig gestellte Fragen</h2>
+            <div class="faq-list reveal" role="list" aria-label="Häufig gestellte Fragen">
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-1">
+                        Wie genau ist die KI-Analyse?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-1" role="region" aria-hidden="true">
+                        Unsere KI wurde speziell auf deutsche Immobiliendokumente trainiert und erreicht eine Erkennungsrate von über 95% für kritische Findings. Der Report ersetzt keine Rechtsberatung, identifiziert aber zuverlässig Punkte, die Sie mit Ihrem Anwalt oder Berater besprechen sollten.
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-2">
+                        Welche Dokumente kann ich hochladen?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-2" role="region" aria-hidden="true">
+                        PDF-Dateien von: Immobilienexposés, Hausgeldabrechnungen, Wirtschaftspläne, WEG-Protokolle (Eigentümerversammlungen), Mietverträge, Energieausweise und Teilungserklärungen. Scans werden per OCR verarbeitet.
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-3">
+                        Sind meine Dokumente sicher?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-3" role="region" aria-hidden="true">
+                        Alle Dokumente werden verschlüsselt übertragen (TLS 1.3), auf deutschen Servern verarbeitet und nach 30 Tagen automatisch gelöscht. Wir geben keine Daten an Dritte weiter. DSGVO-konform.
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-4">
+                        Ersetzt ImmoPrüfer einen Gutachter?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-4" role="region" aria-hidden="true">
+                        Nein. ImmoPrüfer ist ein Dokumenten-Screening-Tool, das versteckte Risiken in Ihren Unterlagen identifiziert. Für bauliche Begutachtung, Wertgutachten oder Rechtsberatung empfehlen wir weiterhin entsprechende Fachleute – aber Sie wissen dann genau, welche Fragen Sie stellen müssen.
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-5">
+                        Was passiert, wenn die KI nichts findet?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-5" role="region" aria-hidden="true">
+                        Auch ein sauberer Report hat Wert: Sie haben die Gewissheit, dass in den geprüften Dokumenten keine offensichtlichen Risiken stecken. Bei der Basic-Analyse bieten wir eine Geld-zurück-Garantie, wenn weniger als 2 Findings identifiziert werden.
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq-6">
+                        Wann startet ImmoPrüfer?
+                        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="faq-answer" id="faq-6" role="region" aria-hidden="true">
+                        Wir planen den Start für Q3 2026. Wartelisten-Mitglieder erhalten 30% Early-Bird-Rabatt und exklusiven Beta-Zugang. Melden Sie sich jetzt unverbindlich an.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-brand">ImmoPrüfer – KI-gestützte Immobilienanalyse</p>
+            <p>&copy; 2024 ImmoPrüfer. Alle Rechte vorbehalten.</p>
+            <nav class="footer-links" aria-label="Rechtliche Links">
+                <a href="#">Impressum</a>
+                <a href="#">Datenschutz</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- Screen reader only utility -->
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ===== THEME TOGGLE =====
+        const THEME_KEY = 'immoprufer-theme';
+
+        function getStoredTheme() {
+            try { return localStorage.getItem(THEME_KEY); } catch(e) { return null; }
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
+
+            // Update meta theme-color
+            const metaLight = document.querySelector('meta[name="theme-color"][media*="light"]');
+            const metaDark = document.querySelector('meta[name="theme-color"][media*="dark"]');
+            if (theme === 'dark') {
+                if (metaLight) metaLight.setAttribute('content', '#0a3535');
+            } else {
+                if (metaLight) metaLight.setAttribute('content', '#0d4f4f');
+            }
+        }
+
+        // Apply stored theme immediately (prevents flash)
+        const stored = getStoredTheme();
+        if (stored) setTheme(stored);
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.theme-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme');
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    setTheme(next);
+                    // Announce to screen readers
+                    toggle.setAttribute('aria-label',
+                        next === 'dark' ? 'Zum hellen Farbschema wechseln' : 'Zum dunklen Farbschema wechseln'
+                    );
+                });
+            }
+
+            // ===== PAGE LOADER =====
+            const loader = document.querySelector('.page-loader');
+            if (loader) {
+                // Hide after fonts + initial paint
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        loader.classList.add('hidden');
+                        document.body.classList.remove('loading');
+                        loader.addEventListener('transitionend', function() {
+                            loader.remove();
+                        }, { once: true });
+                    }, 300);
+                });
+
+                // Fallback: remove after 3s no matter what
+                setTimeout(function() {
+                    loader.classList.add('hidden');
+                    document.body.classList.remove('loading');
+                }, 3000);
+            }
+
+            // ===== SCROLL REVEAL (Intersection Observer) =====
+            if ('IntersectionObserver' in window) {
+                var revealObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+
+                document.querySelectorAll('.reveal').forEach(function(el) {
+                    revealObserver.observe(el);
+                });
+            } else {
+                // Fallback: show all immediately
+                document.querySelectorAll('.reveal').forEach(function(el) {
+                    el.classList.add('visible');
+                });
+            }
+
+            // ===== FAQ ACCORDION =====
+            document.querySelectorAll('.faq-toggle').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var item = btn.closest('.faq-item');
+                    var answer = item.querySelector('.faq-answer');
+                    var isOpen = item.classList.contains('open');
+
+                    // Close all others
+                    document.querySelectorAll('.faq-item.open').forEach(function(other) {
+                        if (other !== item) {
+                            other.classList.remove('open');
+                            other.querySelector('.faq-toggle').setAttribute('aria-expanded', 'false');
+                            other.querySelector('.faq-answer').setAttribute('aria-hidden', 'true');
+                        }
+                    });
+
+                    // Toggle current
+                    item.classList.toggle('open', !isOpen);
+                    btn.setAttribute('aria-expanded', String(!isOpen));
+                    answer.setAttribute('aria-hidden', String(isOpen));
+                });
+
+                // Keyboard: Enter/Space
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            });
+
+            // ===== TOAST SYSTEM =====
+            var toastContainer = document.querySelector('.toast-container');
+
+            function showToast(message, type) {
+                type = type || 'info';
+                var toast = document.createElement('div');
+                toast.className = 'toast toast--' + type;
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+
+                var iconSvg = {
+                    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#1a8c54" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+                    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#dc2f2f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+                    info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="#1a6b8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+                };
+
+                toast.innerHTML = (iconSvg[type] || iconSvg.info) +
+                    '<span>' + message + '</span>' +
+                    '<button class="toast-dismiss" aria-label="Schließen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+
+                toastContainer.appendChild(toast);
+
+                // Trigger enter animation
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        toast.classList.add('visible');
+                    });
+                });
+
+                // Auto dismiss
+                var timeout = setTimeout(function() { dismissToast(toast); }, 5000);
+
+                toast.querySelector('.toast-dismiss').addEventListener('click', function() {
+                    clearTimeout(timeout);
+                    dismissToast(toast);
+                });
+            }
+
+            function dismissToast(toast) {
+                toast.classList.remove('visible');
+                toast.classList.add('removing');
+                toast.addEventListener('transitionend', function() {
+                    toast.remove();
+                }, { once: true });
+            }
+
+            // ===== WAITLIST FORM =====
+            var form = document.getElementById('waitlist-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var input = form.querySelector('.waitlist-input');
+                    var btn = form.querySelector('.waitlist-btn');
+                    var email = input.value.trim();
+
+                    // Validate
+                    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        showToast('Bitte geben Sie eine gültige E-Mail-Adresse ein.', 'error');
+                        input.focus();
+                        return;
+                    }
+
+                    // Loading state
+                    btn.classList.add('loading');
+                    btn.disabled = true;
+                    input.disabled = true;
+
+                    // Simulate submission (replace with real API)
+                    setTimeout(function() {
+                        btn.classList.remove('loading');
+                        btn.innerHTML = '<span class="btn-text">Vorgemerkt ✓</span>';
+                        btn.disabled = true;
+                        input.disabled = true;
+                        showToast('Sie wurden erfolgreich auf die Warteliste gesetzt!', 'success');
+                    }, 1200);
+                });
+            }
+
+            // ===== KEYBOARD NAV: ARROW KEYS IN PRICING =====
+            var pricingCards = document.querySelectorAll('.pricing-btn');
+            pricingCards.forEach(function(card, i) {
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        var next = pricingCards[(i + 1) % pricingCards.length];
+                        next.focus();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        var prev = pricingCards[(i - 1 + pricingCards.length) % pricingCards.length];
+                        prev.focus();
+                    }
+                });
+            });
+
+            // ===== SMOOTH SCROLL for same-page links =====
+            document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    var target = document.querySelector(link.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Move focus for accessibility
+                        target.setAttribute('tabindex', '-1');
+                        target.focus({ preventScroll: true });
+                    }
+                });
+            });
+
+        }); // DOMContentLoaded
+    })();
+    </script>
+
+</body>
+</html>
